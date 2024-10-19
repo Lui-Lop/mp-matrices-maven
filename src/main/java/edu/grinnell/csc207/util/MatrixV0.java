@@ -166,9 +166,21 @@ public class MatrixV0<T> implements Matrix<T> {
     if (row > this.height || row < 0) {
       throw new IndexOutOfBoundsException();
     } else {
-      for (int i = 0; i < this.width; i++) {
-        this.matri[row][i] = this.def;
+      MatrixV0<T> dup = new MatrixV0<>(this.width, this.height + 1);
+
+      for (int curRow = 0; curRow < dup.height; curRow++) {
+        for (int col = 0; col < dup.width; col++) {
+          if (curRow < row) {
+            dup.matri[curRow][col] = this.matri[curRow][col];
+          } else if (curRow == row) {
+            dup.matri[curRow][col] = this.def;
+          } else if (curRow > row) {
+            dup.matri[curRow][col] = this.matri[curRow - 1][col];
+          }
+        }
       }
+      this.height = dup.height;
+      this.matri = dup.matri;
     }
   } // insertRow(int)
 
@@ -191,9 +203,21 @@ public class MatrixV0<T> implements Matrix<T> {
     } else if (row < 0) {
       throw new IndexOutOfBoundsException();
     } else {
-      for (int i = 0; i < this.width; i++) {
-        this.matri[row][i] = vals[i];
+      MatrixV0<T> dup = new MatrixV0<>(this.width, this.height + 1);
+
+      for (int curRow = 0; curRow < dup.height; curRow++) {
+        for (int col = 0; col < dup.width; col++) {
+          if (curRow < row) {
+            dup.matri[curRow][col] = this.matri[curRow][col];
+          } else if (curRow == row) {
+            dup.matri[curRow][col] = vals[col];
+          } else if (curRow > row) {
+            dup.matri[curRow][col] = this.matri[curRow - 1][col];
+          }
+        }
       }
+      this.height = dup.height;
+      this.matri = dup.matri;
     }
   } // insertRow(int, T[])
 
@@ -212,13 +236,12 @@ public class MatrixV0<T> implements Matrix<T> {
     } else {
       MatrixV0<T> dup = new MatrixV0<>(this.width + 1, this.height);
 
-
-      for (int row = 0; row < this.height; row++) {
-        for (int curCol = 0; curCol < this.width; curCol++) {
+      for (int row = 0; row < dup.height; row++) {
+        for (int curCol = 0; curCol < dup.width; curCol++) {
           if (curCol < col) {
             dup.matri[row][curCol] = this.matri[row][curCol];
           } else if (curCol == col) {
-            this.matri[row][curCol] = this.def;
+            dup.matri[row][curCol] = this.def;
           } else if (curCol > col) {
             dup.matri[row][curCol] = this.matri[row][curCol - 1];
           }
@@ -248,9 +271,21 @@ public class MatrixV0<T> implements Matrix<T> {
     } else if (vals.length != this.height) {
       throw new ArraySizeException();
     } else {
-      for (int i = 0; i < this.width; i++) {
-        this.matri[i][col] = vals[i];
+      MatrixV0<T> dup = new MatrixV0<>(this.width + 1, this.height);
+
+      for (int row = 0; row < dup.height; row++) {
+        for (int curCol = 0; curCol < dup.width; curCol++) {
+          if (curCol < col) {
+            dup.matri[row][curCol] = this.matri[row][curCol];
+          } else if (curCol == col) {
+            dup.matri[row][curCol] = vals[row];
+          } else if (curCol > col) {
+            dup.matri[row][curCol] = this.matri[row][curCol - 1];
+          }
+        }
       }
+      this.width = dup.width;
+      this.matri = dup.matri;
     }
   } // insertCol(int, T[])
 
@@ -268,6 +303,19 @@ public class MatrixV0<T> implements Matrix<T> {
       throw new IndexOutOfBoundsException();
     } else {
       
+      MatrixV0<T> dup = new MatrixV0<>(this.width, this.height - 1);
+
+      for (int curRow = 0; curRow < dup.height; curRow++) {
+        for (int col = 0; col < dup.width; col++) {
+          if (curRow < row) {
+            dup.matri[curRow][col] = this.matri[curRow][col];
+          }  else if (curRow >= row) {
+            dup.matri[curRow][col] = this.matri[curRow + 1][col];
+          }
+        }
+      }
+      this.height = dup.height;
+      this.matri = dup.matri;
     }
   } // deleteRow(int)
 
@@ -319,7 +367,7 @@ public class MatrixV0<T> implements Matrix<T> {
    */
   public void fillRegion(int startRow, int startCol, int endRow, int endCol,
       T val) {
-    // STUB
+    for (int row = )
   } // fillRegion(int, int, int, int, T)
 
   /**
