@@ -367,7 +367,15 @@ public class MatrixV0<T> implements Matrix<T> {
    */
   public void fillRegion(int startRow, int startCol, int endRow, int endCol,
       T val) {
-    for (int row = )
+        if (startRow > endRow || startCol > endCol || startCol < 0 || startRow < 0 || endCol > this.width || endRow > this.height) {
+          throw new IndexOutOfBoundsException();
+        }
+
+        for (int row = startRow; row < endRow; row++) {
+          for (int col = startCol; col < endCol; col++) {
+            this.matri[row][col] = val;
+          }
+        }
   } // fillRegion(int, int, int, int, T)
 
   /**
@@ -393,7 +401,16 @@ public class MatrixV0<T> implements Matrix<T> {
    */
   public void fillLine(int startRow, int startCol, int deltaRow, int deltaCol,
       int endRow, int endCol, T val) {
-    // STUB
+        if (startRow > endRow || startCol > endCol || startCol < 0 || startRow < 0 || endCol > this.width || endRow > this.height) {
+          throw new IndexOutOfBoundsException();
+        }
+        int col = 0;
+        for (int row = startRow; row < endRow; row += deltaRow) {
+          if (col < this.width) {
+            this.matri[row][col] = val;
+            col += deltaCol;
+          }
+        }
   } // fillLine(int, int, int, int, int, int, T)
 
   /**
@@ -410,7 +427,7 @@ public class MatrixV0<T> implements Matrix<T> {
         dup.matri[row][col] = this.matri[row][col];
       }
     }
-    return dup;        // STUB
+    return dup;
   } // clone()
 
   /**
@@ -423,7 +440,26 @@ public class MatrixV0<T> implements Matrix<T> {
    * height, and equal elements; false otherwise.
    */
   public boolean equals(Object other) {
-    return this == other;       // STUB
+    if (other instanceof Matrix) {
+      Matrix otherMatrix = (Matrix) other;
+      if (this.height != otherMatrix.height()) {
+        return false;
+      } else if (this.width != otherMatrix.width()) {
+        return false;
+      } else {
+        for (int row = 0; row < this.height; row++) {
+          for (int col = 0; col < this.width; col++) {
+            if (this.matri[row][col] != otherMatrix.get(row, col)) {
+              return false;
+            }
+          }
+        }
+      }
+      return true;
+    } else {
+      // If it's not a matrix, it's not equal.
+      return false;
+    } //
   } // equals(Object)
 
   /**
