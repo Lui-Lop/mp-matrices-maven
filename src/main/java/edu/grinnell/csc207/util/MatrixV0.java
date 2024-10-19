@@ -214,16 +214,18 @@ public class MatrixV0<T> implements Matrix<T> {
 
 
       for (int row = 0; row < this.height; row++) {
-        for (int colu = 0; col < this.width; colu++) {
+        for (int colu = 0; colu < this.width; colu++) {
           if (colu < col) {
             dup.matri[row][colu] = this.matri[row][colu];
           } else if (colu == col) {
-            this.matri[row][col] = this.def;
+            this.matri[row][colu] = this.def;
           } else if (colu > col) {
             dup.matri[row][colu + 1] = this.matri[row][colu];
           }
         }
       }
+      this.width = dup.width;
+      this.matri = dup.matri;
     }
   } // insertCol(int)
 
@@ -285,14 +287,16 @@ public class MatrixV0<T> implements Matrix<T> {
       MatrixV0<T> dup = new MatrixV0<>(this.width - 1, this.height);
 
       for (int row = 0; row < dup.height; row++) {
-        for (int colu = 0; col < dup.width; colu++) {
+        for (int colu = 0; colu < dup.width; colu++) {
           if (colu < col) {
             dup.matri[row][colu] = this.matri[row][colu];
-          }  else if (colu > col) {
+          }  else if (colu >= col) {
             dup.matri[row][colu] = this.matri[row][colu + 1];
           }
         }
       }
+      this.width = dup.width;
+      this.matri = dup.matri;
     }
   } // deleteCol(int)
 
