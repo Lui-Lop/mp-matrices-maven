@@ -214,13 +214,13 @@ public class MatrixV0<T> implements Matrix<T> {
 
 
       for (int row = 0; row < this.height; row++) {
-        for (int colu = 0; colu < this.width; colu++) {
-          if (colu < col) {
-            dup.matri[row][colu] = this.matri[row][colu];
-          } else if (colu == col) {
-            this.matri[row][colu] = this.def;
-          } else if (colu > col) {
-            dup.matri[row][colu + 1] = this.matri[row][colu];
+        for (int curCol = 0; curCol < this.width; curCol++) {
+          if (curCol < col) {
+            dup.matri[row][curCol] = this.matri[row][curCol];
+          } else if (curCol == col) {
+            this.matri[row][curCol] = this.def;
+          } else if (curCol > col) {
+            dup.matri[row][curCol] = this.matri[row][curCol - 1];
           }
         }
       }
