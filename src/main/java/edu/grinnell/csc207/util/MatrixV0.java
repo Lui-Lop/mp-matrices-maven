@@ -39,7 +39,7 @@ public class MatrixV0<T> implements Matrix<T> {
    */
   @SuppressWarnings("unchecked")
   public MatrixV0(int width, int height, T def) {
-    Object[][] matrix = new Object[width][height];
+    Object[][] matrix = new Object[height][width];
     this.matri = (T[][]) matrix;
     this.width = width;
     this.height = height;
@@ -70,7 +70,7 @@ public class MatrixV0<T> implements Matrix<T> {
    */
   @SuppressWarnings("unchecked")
   public MatrixV0(int width, int height) {
-    Object[][] matri =  new Object[width][height];
+    Object[][] matri =  new Object[height][width];
     this.height = height;
     this.width = width;
     this.matri = (T[][]) matri;
@@ -210,8 +210,19 @@ public class MatrixV0<T> implements Matrix<T> {
     if (col > this.width || col < 0) {
       throw new IndexOutOfBoundsException();
     } else {
-      for (int i = 0; i < this.width; i++) {
-        this.matri[i][col] = this.def;
+      MatrixV0<T> dup = new MatrixV0<>(this.width + 1, this.height);
+
+
+      for (int row = 0; row < this.height; row++) {
+        for (int colu = 0; col < this.width; colu++) {
+          if (colu < col) {
+            dup.matri[row][colu] = this.matri[row][colu];
+          } else if (colu == col) {
+            this.matri[row][col] = this.def;
+          } else if (colu > col) {
+            dup.matri[row][colu + 1] = this.matri[row][colu];
+          }
+        }
       }
     }
   } // insertCol(int)
@@ -268,7 +279,21 @@ public class MatrixV0<T> implements Matrix<T> {
    *   If the column is negative or greater than or equal to the width.
    */
   public void deleteCol(int col) {
-    // STUB
+    if (col > this.width || col < 0) {
+      throw new IndexOutOfBoundsException();
+    } else {
+      MatrixV0<T> dup = new MatrixV0<>(this.width - 1, this.height);
+
+      for (int row = 0; row < dup.height; row++) {
+        for (int colu = 0; col < dup.width; colu++) {
+          if (colu < col) {
+            dup.matri[row][colu] = this.matri[row][colu];
+          }  else if (colu > col) {
+            dup.matri[row][colu] = this.matri[row][colu + 1];
+          }
+        }
+      }
+    }
   } // deleteCol(int)
 
   /**
@@ -326,8 +351,14 @@ public class MatrixV0<T> implements Matrix<T> {
    *
    * @return a copy of the matrix.
    */
-  public Matrix clone() {
-    return this;        // STUB
+  public Matrix<T> clone() {
+    MatrixV0<T> dup = new MatrixV0<>(this.width, this.height);
+    for (int row = 0; row < this.height; row++) {
+      for (int col = 0; col < this.width; col++) {
+        dup.matri[row][col] = this.matri[row][col];
+      }
+    }
+    return dup;        // STUB
   } // clone()
 
   /**
