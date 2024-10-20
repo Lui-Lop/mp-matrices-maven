@@ -479,7 +479,7 @@ public class MatrixV0<T> implements Matrix<T> {
       } else {
         for (int row = 0; row < this.height; row++) {
           for (int col = 0; col < this.width; col++) {
-            if (this.matri[row][col] != otherMatrix.get(row, col)) {
+            if (this.get(row, col) != otherMatrix.get(row, col)) {
               return false;
             } // end of check each element
           } // loop over each colum
