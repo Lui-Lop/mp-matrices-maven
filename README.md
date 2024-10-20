@@ -11,7 +11,7 @@ Authors:
 
 Overview:
 
-Creates a matrix that stores value in a two dimensional structure. Allowing values to be changed or removed.
+Creates a matrix that stores value in a two dimensional structure. Allowing rows, colums, and single indices to be changed, removed, or added.
 
 ---
 
